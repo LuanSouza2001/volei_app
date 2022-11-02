@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1063381796204",
+    "project_id": "voleiapp-da77f",
+    "storage_bucket": "voleiapp-da77f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1063381796204:android:7f4f8980eea97fabd4df49",
+        "android_client_info": {
+          "package_name": "com.example.volei_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1063381796204-gei3e5cpo5jbgi825nvutboqt3f47h59.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfOssTcRiQWgA-aPsqLWWbmOynnR7Agw4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1063381796204-gei3e5cpo5jbgi825nvutboqt3f47h59.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
