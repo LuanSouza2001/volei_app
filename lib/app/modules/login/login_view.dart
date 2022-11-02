@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:volei_app/app/app_bloc.dart';
+import 'package:volei_app/app/modules/login/bloc/login_bloc.dart';
+import 'package:volei_app/app/modules/login/bloc/login_state.dart';
 import 'package:volei_app/app/shared/utils/util.dart';
 
 class LoginView extends StatefulWidget {
@@ -13,7 +14,7 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   final Util util = Modular.get();
-  final bloc = AppBloc();
+  final bloc = LoginBloc(LoginInitState());
   String? errorMessage = '';
   bool isLogin = true;
 
@@ -21,29 +22,17 @@ class _LoginViewState extends State<LoginView> {
   final TextEditingController _controllerPassword = TextEditingController();
 
   Future<void> singInWithEmailAndPassword() async {
-    try {
-      await bloc.singInWithEmailAndPassword(
-        email: _controllerEmail.text,
-        password: _controllerPassword.text,
-      );
-    } on FirebaseAuthException catch (e) {
-      setState(() {
-        errorMessage = e.message;
-      });
-    }
+    await bloc.singInWithEmailAndPassword(
+      email: _controllerEmail.text,
+      password: _controllerPassword.text,
+    );
   }
 
   Future<void> createUserWithEmailAndPassword() async {
-    try {
-      await bloc.createUserWithEmailAndPassword(
-        email: _controllerEmail.text,
-        password: _controllerPassword.text,
-      );
-    } on FirebaseAuthException catch (e) {
-      setState(() {
-        errorMessage = e.message;
-      });
-    }
+    await bloc.createUserWithEmailAndPassword(
+      email: _controllerEmail.text,
+      password: _controllerPassword.text,
+    );
   }
 
   Widget _title() {
@@ -69,6 +58,7 @@ class _LoginViewState extends State<LoginView> {
   Widget _submitButton() {
     return ElevatedButton(
       onPressed: () {
+        bloc.isLogged();
         isLogin
             ? singInWithEmailAndPassword()
             : createUserWithEmailAndPassword();
@@ -109,6 +99,40 @@ class _LoginViewState extends State<LoginView> {
             _errorMessage(),
             _submitButton(),
             _loginOrRegisterButton(),
+            BlocBuilder<LoginBloc, LoginState>(
+              bloc: bloc,
+              builder: (context, state) {
+                bloc.authStateChanges;
+
+                if (state is LoginSuccessState) {
+                  Modular.to.pushNamed("/home");
+                }
+
+                if (state is LoginInitState) {
+                  bloc.isLogged();
+                }
+
+                if (state is LoginLoadingState) {
+                  if (state.isLoading) {
+                    return CircularProgressIndicator();
+                  }
+                }
+
+                if (state is LoginEmailErrorState) {
+                  return Text('Erro email');
+                }
+
+                if (state is LoginPasswordErrorState) {
+                  return Text('Erro password');
+                }
+
+                if (state is LoginTooManyRequestErrorState) {
+                  return Text('Muitas tentativas de login');
+                }
+
+                return Container();
+              },
+            )
           ],
         ),
       ),

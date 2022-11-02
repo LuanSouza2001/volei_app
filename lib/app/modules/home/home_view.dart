@@ -1,23 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:volei_app/app/app_bloc.dart';
+import 'package:volei_app/app/modules/login/bloc/login_bloc.dart';
+import 'package:volei_app/app/modules/login/bloc/login_state.dart';
 import 'package:volei_app/app/shared/utils/util.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   HomeView({super.key});
-  final Util util = Modular.get();
-  final bloc = AppBloc();
 
-  Future<void> singOut() async {
-    await bloc.singOut();
-  }
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  final bloc = LoginBloc(LoginInitState());
+  final Util util = Modular.get();
 
   Widget _title() {
     return const Text('Firebase Auth');
   }
 
-  Widget _userUid() {
-    return Text(bloc.currenteUser?.email ?? 'User email');
+  Future<void> singOut() async {
+    await bloc.singOut();
+    Modular.to.pushNamed('/login');
   }
 
   Widget _singOutButton() {
@@ -36,17 +40,8 @@ class HomeView extends StatelessWidget {
         centerTitle: true,
       ),
       body: Container(
-        height: double.infinity,
-        width: double.infinity,
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _userUid(),
-            _singOutButton(),
-          ],
-        ),
+        color: Colors.amber,
+        child: _singOutButton(),
       ),
     );
   }

@@ -15,8 +15,8 @@ class _SplashViewState extends State<SplashView> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 3)).then(
-        (value) => Navigator.of(context).pushReplacementNamed('/widget_tree'));
+    Future.delayed(const Duration(seconds: 3))
+        .then((value) => Navigator.of(context).pushReplacementNamed('/login'));
   }
 
   @override
