@@ -1,5 +1,5 @@
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:volei_app/app/modules/login/login_view.dart';
+import 'package:volei_app/app/modules/login/presentation/pages/login_view.dart';
 
 class LoginModule extends Module {
   @override

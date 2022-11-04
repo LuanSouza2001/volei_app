@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:volei_app/app/modules/login/bloc/login_bloc.dart';
-import 'package:volei_app/app/modules/login/bloc/login_state.dart';
+import 'package:volei_app/app/modules/login/presentation/bloc/login_bloc.dart';
+import 'package:volei_app/app/modules/login/presentation/bloc/login_state.dart';
 import 'package:volei_app/app/shared/utils/util.dart';
 
 class LoginView extends StatefulWidget {
@@ -22,17 +22,13 @@ class _LoginViewState extends State<LoginView> {
   final TextEditingController _controllerPassword = TextEditingController();
 
   Future<void> singInWithEmailAndPassword() async {
-    await bloc.singInWithEmailAndPassword(
-      email: _controllerEmail.text,
-      password: _controllerPassword.text,
-    );
+    await bloc.login(
+        email: _controllerEmail.text, password: _controllerPassword.text);
   }
 
-  Future<void> createUserWithEmailAndPassword() async {
-    await bloc.createUserWithEmailAndPassword(
-      email: _controllerEmail.text,
-      password: _controllerPassword.text,
-    );
+  Future<void> createAccountInWithEmailAndPassword() async {
+    await bloc.createAccount(
+        email: _controllerEmail.text, password: _controllerPassword.text);
   }
 
   Widget _title() {
@@ -58,10 +54,9 @@ class _LoginViewState extends State<LoginView> {
   Widget _submitButton() {
     return ElevatedButton(
       onPressed: () {
-        bloc.isLogged();
-        isLogin
-            ? singInWithEmailAndPassword()
-            : createUserWithEmailAndPassword();
+        //isLogin :
+        singInWithEmailAndPassword();
+        //createAccountInWithEmailAndPassword();
       },
       child: Text(isLogin ? 'Login' : 'Register'),
     );
@@ -80,6 +75,8 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
+    bloc.isLogged();
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -102,32 +99,28 @@ class _LoginViewState extends State<LoginView> {
             BlocBuilder<LoginBloc, LoginState>(
               bloc: bloc,
               builder: (context, state) {
-                bloc.authStateChanges;
-
                 if (state is LoginSuccessState) {
                   Modular.to.pushNamed("/home");
                 }
 
-                if (state is LoginInitState) {
-                  bloc.isLogged();
-                }
+                if (state is LoginInitState) {}
 
                 if (state is LoginLoadingState) {
                   if (state.isLoading) {
-                    return CircularProgressIndicator();
+                    return const CircularProgressIndicator();
                   }
                 }
 
                 if (state is LoginEmailErrorState) {
-                  return Text('Erro email');
+                  return const Text('Erro email');
                 }
 
                 if (state is LoginPasswordErrorState) {
-                  return Text('Erro password');
+                  return const Text('Erro password');
                 }
 
                 if (state is LoginTooManyRequestErrorState) {
-                  return Text('Muitas tentativas de login');
+                  return const Text('Muitas tentativas de login');
                 }
 
                 return Container();

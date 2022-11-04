@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:volei_app/app/modules/login/bloc/login_bloc.dart';
-import 'package:volei_app/app/modules/login/bloc/login_state.dart';
+import 'package:volei_app/app/modules/login/presentation/bloc/login_bloc.dart';
+import 'package:volei_app/app/modules/login/presentation/bloc/login_state.dart';
 import 'package:volei_app/app/shared/utils/util.dart';
 
 class HomeView extends StatefulWidget {
@@ -20,7 +20,7 @@ class _HomeViewState extends State<HomeView> {
   }
 
   Future<void> singOut() async {
-    await bloc.singOut();
+    await bloc.logout();
     Modular.to.pushNamed('/login');
   }
 
