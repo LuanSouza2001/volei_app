@@ -22,10 +22,10 @@ class LoginBloc extends Bloc<LoginEventBloc, LoginState> {
     if (request is Success) {
       emit(LoginSuccessState());
     } else if (request is Failure) {
-      if (request.message == "Given String is empty or null") {
-        emit(LoginTooManyRequestErrorState());
-      } else if (request.message == "Given String is empty or null") {
-        emit(LoginTooManyRequestErrorState());
+      if (request.message == "wrong-password") {
+        emit(LoginPasswordErrorState());
+      } else if (request.message == "user-not-found") {
+        emit(LoginEmailErrorState());
       }
       {}
     }

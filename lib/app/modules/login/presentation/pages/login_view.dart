@@ -112,11 +112,11 @@ class _LoginViewState extends State<LoginView> {
                 }
 
                 if (state is LoginEmailErrorState) {
-                  return const Text('Erro email');
+                  return const Text('Email invalido');
                 }
 
                 if (state is LoginPasswordErrorState) {
-                  return const Text('Erro password');
+                  return const Text('Senha incorreta');
                 }
 
                 if (state is LoginTooManyRequestErrorState) {

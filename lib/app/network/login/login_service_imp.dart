@@ -26,7 +26,7 @@ class LoginServiceImp implements LoginService {
       );
       return Success(user.user);
     } on FirebaseAuthException catch (e) {
-      return Failure(e.message);
+      return Failure(e.code);
     }
   }
 
