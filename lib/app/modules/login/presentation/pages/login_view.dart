@@ -31,10 +31,6 @@ class _LoginViewState extends State<LoginView> {
         email: _controllerEmail.text, password: _controllerPassword.text);
   }
 
-  Widget _title() {
-    return const Text('Firabse Auth');
-  }
-
   Widget _entryField(
     String title,
     TextEditingController controller,
@@ -42,6 +38,7 @@ class _LoginViewState extends State<LoginView> {
     return TextField(
       controller: controller,
       decoration: InputDecoration(
+        border: const OutlineInputBorder(),
         labelText: title,
       ),
     );
@@ -69,7 +66,7 @@ class _LoginViewState extends State<LoginView> {
           isLogin = !isLogin;
         });
       },
-      child: Text(isLogin ? 'Register instead' : 'Login instead'),
+      child: Text(isLogin ? 'Register' : 'Login'),
     );
   }
 
@@ -78,11 +75,6 @@ class _LoginViewState extends State<LoginView> {
     bloc.isLogged();
 
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: _title(),
-        centerTitle: true,
-      ),
       body: Container(
         height: double.infinity,
         width: double.infinity,
@@ -91,8 +83,14 @@ class _LoginViewState extends State<LoginView> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _entryField('email', _controllerEmail),
-            _entryField('password', _controllerPassword),
+            const Text(
+              'Logo',
+              style: TextStyle(fontSize: 48),
+            ),
+            const SizedBox(height: 20),
+            _entryField('Email', _controllerEmail),
+            const SizedBox(height: 20),
+            _entryField('Password', _controllerPassword),
             _errorMessage(),
             _submitButton(),
             _loginOrRegisterButton(),
@@ -112,7 +110,7 @@ class _LoginViewState extends State<LoginView> {
                 }
 
                 if (state is LoginEmailErrorState) {
-                  return const Text('Email invalido');
+                  return const Text('Email incorreto');
                 }
 
                 if (state is LoginPasswordErrorState) {
